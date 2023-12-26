@@ -1,0 +1,18 @@
+#2023/day/1
+
+# Import the File add 
+import re
+
+def get_file_input_by_lines(file_name):
+     lines = []
+     with open(file_name) as f:
+          lines = [line.rstrip() for line in f]
+
+def count_lines(lines): 
+     count = 0
+     for line in lines:
+          values = re.findall(r'\d', line)
+          count += int(values[0] + values[-1])
+          print(f'count: {count} = {values[0] + values[-1]}')
+     return count
+
