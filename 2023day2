@@ -1,0 +1,47 @@
+
+# Import the File add 
+import re
+
+# Game 1: 1 green, 2 blue; 15 blue, 12 red, 2 green; 4 red, 6 blue; 10 blue, 8 red; 3 red, 12 blue; 1 green, 12 red, 8 blue
+
+def get_file_input_by_lines(file_name):
+     lines = []
+     with open(file_name) as f:
+          lines = [line.rstrip() for line in f]
+     return lines
+
+
+def is_game_valid(game_detail):
+     # [' 1 green, 2 blue', ' 15 blue, 12 red, 2 green', ' 4 red, 6 blue', ' 10 blue, 8 red', ' 3 red, 12 blue', ' 1 green, 12 red, 8 blue']
+     for game in game_detail:
+          scores = [s.strip() for s in re.split('[,]', game.strip())]
+          # ['1 green', '2 blue']
+          if is_bad_score(scores):
+               return False
+     return True
+                 
+
+
+def is_bad_score(scores):
+      for score in scores:
+           num = int(score.split(' ')[0]) 
+           if   'red' in score and num > 12 or 'green' in score and num > 13 or 'blue' in score and num > 14:
+                return True
+      return False
+                
+               
+
+def add_valid_games(lines):
+     count = 0
+     for line in lines:
+        games = [s.strip() for s in re.split('[:;]', line)]
+        # ['Game 1', ' 1 green, 2 blue', ' 15 blue, 12 red, 2 green', ' 4 red, 6 blue', ' 10 blue, 8 red', ' 3 red, 12 blue', ' 1 green, 12 red, 8 blue']
+        game_number = int(games[0].split(' ')[1])
+        game_detail = games[1:]
+        if is_game_valid(game_detail):
+                count += game_number
+     return count 
+        
+
+lines = get_file_input_by_lines(file_name)
+add_valid_games(lines)
